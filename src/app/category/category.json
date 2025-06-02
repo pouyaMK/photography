@@ -1,0 +1,252 @@
+{
+  "success": true,
+  "data": [
+    {
+      "type": "folder",
+      "name": "food-and-drinks",
+      "name_fa": "\u063a\u0630\u0627 \u0648 \u0646\u0648\u0634\u06cc\u062f\u0646\u06cc",
+      "path": "food-and-drinks",
+      "children": [
+        {
+          "type": "folder",
+          "name": "Breakfast",
+          "name_fa": "\u0635\u0628\u062d\u0627\u0646\u0647",
+          "path": "food-and-drinks/Breakfast",
+          "children": [
+            {
+              "type": "file",
+              "name": "IMG_0005.jpg",
+              "name_fa": "IMG_0005",
+              "url": "https://api.lightsostudio.com/storage/images/food-and-drinks/Breakfast/IMG_0005.jpg",
+              "icon": "fa-file"
+            }
+          ],
+          "icon": "fa-folder-open"
+        },
+        {
+          "type": "folder",
+          "name": "Cafe",
+          "name_fa": "Cafe",
+          "path": "food-and-drinks/Cafe",
+          "children": [
+            {
+              "type": "file",
+              "name": "012A9128.jpg",
+              "name_fa": "012A9128",
+              "url": "https://api.lightsostudio.com/storage/images/food-and-drinks/Cafe/012A9128.jpg",
+              "icon": "fa-file"
+            }     
+          ],
+          "icon": "fa-folder-open"
+        },
+        {
+          "type": "folder",
+          "name": "Cake",
+          "name_fa": "Cake",
+          "path": "food-and-drinks/Cake",
+          "children": [
+            {
+              "type": "file",
+              "name": "IMG_5740 copy.jpg",
+              "name_fa": "IMG_5740 copy",
+              "url": "https://api.lightsostudio.com/storage/images/food-and-drinks/Cake/IMG_5740 copy.jpg",
+              "icon": "fa-file"
+            }
+                
+          ],
+          "icon": "fa-folder-open"
+        },
+        {
+          "type": "folder",
+          "name": "Drink",
+          "name_fa": "Drink",
+          "path": "food-and-drinks/Drink",
+          "children": [
+            {
+              "type": "file",
+              "name": "IMG_5047 copy.jpg",
+              "name_fa": "IMG_5047 copy",
+              "url": "https://api.lightsostudio.com/storage/images/food-and-drinks/Drink/IMG_5047 copy.jpg",
+              "icon": "fa-file"
+            }
+           
+          ],
+          "icon": "fa-folder-open"
+        },
+        {
+          "type": "folder",
+          "name": "Restaurant-Food",
+          "name_fa": "Restaurant-Food",
+          "path": "food-and-drinks/Restaurant-Food",
+          "children": [
+            {
+              "type": "file",
+              "name": "IMG_0071 copy.jpg",
+              "name_fa": "IMG_0071 copy",
+              "url": "https://api.lightsostudio.com/storage/images/food-and-drinks/Restaurant-Food/IMG_0071 copy.jpg",
+              "icon": "fa-file"
+            }
+          
+          ],
+          "icon": "fa-folder-open"
+        },
+        {
+          "type": "folder",
+          "name": "shokolat",
+          "name_fa": "shokolat",
+          "path": "food-and-drinks/shokolat",
+          "children": [
+            {
+              "type": "file",
+              "name": "IMG_0162 copy.jpg",
+              "name_fa": "IMG_0162 copy",
+              "url": "https://api.lightsostudio.com/storage/images/food-and-drinks/shokolat/IMG_0162 copy.jpg",
+              "icon": "fa-file"
+            }
+             
+          ],
+          "icon": "fa-folder-open"
+        }
+      ],
+      "icon": "material-symbols:fastfood-outline-rounded"
+    },
+    {
+      "type": "folder",
+      "name": "portrait",
+      "name_fa": "\u0639\u06a9\u0627\u0633\u06cc \u067e\u0631\u062a\u0631\u0647",
+      "path": "portrait",
+      "children": [
+        {
+          "type": "file",
+          "name": "IMG_3795 copy.jpg",
+          "name_fa": "IMG_3795 copy",
+          "url": "https://api.lightsostudio.com/storage/images/portrait/IMG_3795 copy.jpg",
+          "icon": "fa-file"
+        }
+  
+      ],
+      "icon": "solar:camera-linear"
+    },
+    {
+      "type": "folder",
+      "name": "product-photography",
+      "name_fa": "product-photography",
+      "path": "product-photography",
+      "children": [
+        {
+          "type": "folder",
+          "name": "leather",
+          "name_fa": "leather",
+          "path": "product-photography/leather",
+          "children": [
+            {
+              "type": "folder",
+              "name": "bag",
+              "name_fa": "bag",
+              "path": "product-photography/leather/bag",
+              "children": [
+                {
+                  "type": "file",
+                  "name": "IMG_0070 copy.jpg",
+                  "name_fa": "IMG_0070 copy",
+                  "url": "https://api.lightsostudio.com/storage/images/product-photography/leather/bag/IMG_0070 copy.jpg",
+                  "icon": "fa-file"
+                }
+   
+
+              ],
+              "icon": "fa-folder-open"
+            },
+            {
+              "type": "folder",
+              "name": "shoe",
+              "name_fa": "shoe",
+              "path": "product-photography/leather/shoe",
+              "children": [            
+                {
+                  "type": "file",
+                  "name": "_MG_0514 copy.jpg",
+                  "name_fa": "_MG_0514 copy",
+                  "url": "https://api.lightsostudio.com/storage/images/product-photography/leather/shoe/_MG_0514 copy.jpg",
+                  "icon": "fa-file"
+                }
+              ],
+              "icon": "fa-folder-open"
+            }
+          ],
+          "icon": "fa-folder-open"
+        },
+        {
+          "type": "folder",
+          "name": "macro",
+          "name_fa": "macro",
+          "path": "product-photography/macro",
+          "children": [
+          
+            {
+              "type": "file",
+              "name": "IMG_9980 copy.jpg",
+              "name_fa": "IMG_9980 copy",
+              "url": "https://api.lightsostudio.com/storage/images/product-photography/macro/IMG_9980 copy.jpg",
+              "icon": "fa-file"
+            }
+          ],
+          "icon": "fa-folder-open"
+        },
+        {
+          "type": "folder",
+          "name": "makeup-products",
+          "name_fa": "makeup-products",
+          "path": "product-photography/makeup-products",
+          "children": [
+                
+            {
+              "type": "file",
+              "name": "IMG_8152 copy.jpg",
+              "name_fa": "IMG_8152 copy",
+              "url": "https://api.lightsostudio.com/storage/images/product-photography/makeup-products/IMG_8152 copy.jpg",
+              "icon": "fa-file"
+            }
+          ],
+          "icon": "fa-folder-open"
+        },
+        {
+          "type": "folder",
+          "name": "perfume",
+          "name_fa": "perfume",
+          "path": "product-photography/perfume",
+          "children": [
+            {
+              "type": "file",
+              "name": "IMG_7667 copy.jpg",
+              "name_fa": "IMG_7667 copy",
+              "url": "https://api.lightsostudio.com/storage/images/product-photography/perfume/IMG_7667 copy.jpg",
+              "icon": "fa-file"
+            }
+           
+          ],
+          "icon": "fa-folder-open"
+        },
+        {
+          "type": "folder",
+          "name": "products",
+          "name_fa": "products",
+          "path": "product-photography/products",
+          "children": [
+            {
+              "type": "file",
+              "name": "IMG_3088.jpg",
+              "name_fa": "IMG_3088",
+              "url": "https://api.lightsostudio.com/storage/images/product-photography/products/IMG_3088.jpg",
+              "icon": "fa-file"
+            }
+          
+          ],
+          "icon": "fa-folder-open"
+        }
+      ],
+      "icon": "fa-folder"
+    }
+  ],
+  "message": "\u0633\u0627\u062e\u062a\u0627\u0631 \u067e\u0648\u0634\u0647\u200c\u0647\u0627 \u0628\u0627 \u0645\u0648\u0641\u0642\u06cc\u062a \u062f\u0631\u06cc\u0627\u0641\u062a \u0634\u062f"
+}

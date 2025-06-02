@@ -1,0 +1,2 @@
+
+declare module 'moment-jalaali';

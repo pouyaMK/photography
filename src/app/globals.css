@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --clr-dark-primery: #0073A9;
+  --clr-primery: #29A6DB;
+  --clr-light-primery: #7AC4E3;
+  --clr-white: rgb(255, 255, 255);
+  --clr-accent: rgb(158, 158, 158);
+  --clr-primery-text: rgb(33, 33, 33);
+  --clr-secondary-text: rgb(117, 117, 117);
+  --clr-divider: rgb(189, 189, 189);
+}
+
+/* استفاده در بدنه سایت */
+body {
+  font-family: var(--font-yekan-bakh), sans-serif;
+  font-size: .9rem;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  background: var(--clr-white);
+  box-sizing: border-box;
+  color: var(--clr-primery-text);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(34, 34, 34, 0.26666666666666666);
+  border-radius: 6px;
+}
+
+/* برای تغییر مکان نقطه‌ها */
+.custom-swiper .swiper-pagination {
+  position: relative !important; /* جای نقطه‌ها رو داخل همون بلوک قرار بده */
+  margin-top: 12px; /* فاصله از پایین عکس */
+  text-align: center;
+}
+
+html {
+  scroll-behavior: smooth;
+}

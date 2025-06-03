@@ -31,7 +31,7 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;NoPicture&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
     &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/pouya/Desktop/blito&quot;,
@@ -40,6 +40,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/home/pouya/Desktop/gallery/node_modules/typescript/lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -76,6 +77,8 @@
       <updated>1748181213618</updated>
       <workItem from="1748181214995" duration="491000" />
       <workItem from="1748204487570" duration="45000" />
+      <workItem from="1748896390917" duration="1305000" />
+      <workItem from="1748897707027" duration="318000" />
     </task>
     <servers />
   </component>

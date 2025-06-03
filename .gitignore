@@ -44,5 +44,3 @@ next-env.d.ts
 
 # Ignore images folder
 
-public/img/*
-public/video/*

@@ -44,3 +44,6 @@ next-env.d.ts
 
 # Ignore images folder
 
+/public/img/food&drink
+/public/img/portraite
+/public/img/product

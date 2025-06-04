@@ -1,5 +1,4 @@
 
-
 "use client";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useSearchParams } from "next/navigation";
@@ -183,7 +182,7 @@ const categoryFromQuery = searchParams.get("category");
                       className="w-5 h-5 object-contain"
                     />
                   )}
-                  {/* {category.name} */}
+                
                   {category.name_fa}
                 </button>
               ))}

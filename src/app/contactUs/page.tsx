@@ -1,5 +1,5 @@
 "use client";
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import ButtonLink from "@/components/common/buttonLink"
 import Link from 'next/link';
@@ -7,12 +7,15 @@ import { Icon } from '@iconify/react';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
-import axios from 'axios';
+import axios from "axios";
+
+interface ContactFormValues {
+  message: string;
+}
 
 const ContactForm = () => {
   const router = useRouter();
-  const { user, loading } = useUser(); // گرفتن وضعیت ورود
-
+  const { user, loading } = useUser(); 
 
   const validationSchema = Yup.object({
     message: Yup.string()
@@ -20,63 +23,53 @@ const ContactForm = () => {
       .required('وارد کردن پیام الزامی است'),
   });
     
-  const initialValues = {
+  const initialValues: ContactFormValues = {
     message: '',
   };
 
-  const handleSubmit = async (values: typeof initialValues, { resetForm, setSubmitting }: any) => {
-    const token = localStorage.getItem('token');
-    
+  const handleSubmit = async (
+    values: ContactFormValues,
+    { resetForm, setSubmitting }: FormikHelpers<ContactFormValues>
+  ) => {
+    const token = localStorage.getItem("token");
+
     if (!token) {
-      toast.error('لطفاً ابتدا وارد حساب کاربری شوید');
-      router.push('/login');
+      toast.error("لطفاً ابتدا وارد حساب کاربری شوید");
+      router.push("/login");
       return;
     }
 
     try {
       setSubmitting(true);
-      
-      const response = await axios.post(
-        'https://api.lightsostudio.com/api/messages',
-        {
-          message: values.message,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      toast.success('پیام شما با موفقیت ارسال شد');
+      toast.success("پیام شما با موفقیت ارسال شد");
       resetForm();
-      
-    } catch (error: any) {
-      if (error.response?.status === 401) {
-        toast.error('احراز هویت نامعتبر است. لطفاً مجدداً وارد شوید');
-        localStorage.removeItem('token');
-        router.push('/login');
-      } else if (error.response?.status === 422) {
-        const errors = error.response.data.errors;
-        if (errors?.message) {
-          toast.error(errors.message[0]);
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          toast.error("احراز هویت نامعتبر است. لطفاً مجدداً وارد شوید");
+          localStorage.removeItem("token");
+          router.push("/login");
+        } else if (error.response?.status === 422) {
+          const errors = error.response.data.errors;
+          if (errors?.message) {
+            toast.error(errors.message[0]);
+          } else {
+            toast.error("اطلاعات وارد شده نامعتبر است");
+          }
         } else {
-          toast.error('اطلاعات وارد شده نامعتبر است');
+          toast.error("ارسال پیام با خطا مواجه شد");
         }
+        console.error("خطا:", error.response?.data || error.message);
       } else {
-        toast.error('ارسال پیام با خطا مواجه شد');
+        toast.error("خطای ناشناخته‌ای رخ داده است");
+        console.error("خطای ناشناخته:", error);
       }
-      console.error('خطا:', error.response?.data || error.message);
-    } finally {
-      setSubmitting(false);
     }
-  };
+  } 
 
   return (
     <div className="min-h-screen relative flex items-center justify-center  mb-20">
       <div className="w-[85%] lg:w-[80%]">
-        {/* Breadcrumb */}
         <div className="flex mb-4 md:mb-12 items-center justify-start gap-2 mt-16 md:mt-20 !text-slate-500">
           <Link href="/" className="hover:text-[#28A6DB] text-xs sm:text-sm ">
             خانه
@@ -166,20 +159,6 @@ const ContactForm = () => {
                       ارتباط با مریم میرمحمد
                     </h3>
                   </div>
-
-                  {/* <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Icon icon={'mdi:information'} className='w-5 h-5 text-[#28A6DB]' />
-                      <span className="text-sm font-medium text-[#28A6DB]">نکته مهم</span>
-                    </div>
-                    <p className="text-xs text-[#28A6DB]">
-                      برای ارسال پیام، ابتدا باید وارد حساب کاربری خود شوید. 
-                      اگر حساب کاربری ندارید، 
-                        ثبت نام کنید
-                      یا 
-                        وارد شوید
-                    </p>
-                  </div> */}
 
                   {!loading && !user && (
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">

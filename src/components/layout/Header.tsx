@@ -15,14 +15,14 @@ import { useUser } from "@/contexts/userContext";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
-  const cleanPathname = pathname.slice(1).trim();
+  // const cleanPathname = pathname.slice(1).trim();
   const router = useRouter();
   const [showCategoryMenu, setShowCategoryMenu] = useState(false);
   const [showMobileCategoryMenu, setShowMobileCategoryMenu] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { user } = useUser()
 
-  // بررسی وضعیت لاگین کاربر
+
   const checkAuthStatus = () => {
     const tokenFromCookie = document.cookie
       .split('; ')
@@ -67,7 +67,6 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      // حذف کوکی از سرور
       await deleteTokenCookie();
       localStorage.removeItem('token');
       setIsLoggedIn(false);
@@ -83,34 +82,34 @@ const Navbar = () => {
     }
   };
 
-  const smoothScrollTo = (target: HTMLElement) => {
-    const targetPosition = target.getBoundingClientRect().top + window.scrollY;
-    const startPosition = window.scrollY;
-    const distance = targetPosition - startPosition;
-    const duration = 800;
-    let startTime: number | null = null;
+  // const smoothScrollTo = (target: HTMLElement) => {
+  //   const targetPosition = target.getBoundingClientRect().top + window.scrollY;
+  //   const startPosition = window.scrollY;
+  //   const distance = targetPosition - startPosition;
+  //   const duration = 800;
+  //   let startTime: number | null = null;
 
-    const animation = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const timeElapsed = currentTime - startTime;
-      const progress = Math.min(timeElapsed / duration, 1);
+  //   const animation = (currentTime: number) => {
+  //     if (!startTime) startTime = currentTime;
+  //     const timeElapsed = currentTime - startTime;
+  //     const progress = Math.min(timeElapsed / duration, 1);
 
-      const easeInOutQuad = (t: number) =>
-        t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  //     const easeInOutQuad = (t: number) =>
+  //       t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
-      window.scrollTo(0, startPosition + distance * easeInOutQuad(progress));
+  //     window.scrollTo(0, startPosition + distance * easeInOutQuad(progress));
 
-      if (timeElapsed < duration) {
-        requestAnimationFrame(animation);
-      }
-    };
+  //     if (timeElapsed < duration) {
+  //       requestAnimationFrame(animation);
+  //     }
+  //   };
 
-    requestAnimationFrame(animation);
-  };
+  //   requestAnimationFrame(animation);
+  // };
 
-  const handleNavigation = (item: { label: string; href: string }) => {
-    router.push(item.href);
-  };
+  // const handleNavigation = (item: { label: string; href: string }) => {
+  //   router.push(item.href);
+  // };
 
   useEffect(() => {
     setIsOpen(false);

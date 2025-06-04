@@ -9,7 +9,7 @@ import moment from 'moment-jalaali';
 import 'moment/locale/fa';
 import 'moment-jalaali';
 import ButtonLink from "@/components/common/buttonLink"
-import axios from "axios"
+import axios from "axios";
 
 moment.loadPersian({ dialect: 'persian-modern' });
 
@@ -33,16 +33,15 @@ export default function PhotoBookingForm() {
     }),
     onSubmit: async (values, { resetForm }) => {
       const token = localStorage.getItem('token');
-            
+    
       if (!token) {
         toast.error('لطفاً ابتدا وارد حساب کاربری شوید');
         router.push('/login');
         return;
       }
-                
+    
       try {
-        // ارسال رویداد به اندپوینت events
-        const eventResponse = await axios.post(
+        await axios.post(
           'https://api.lightsostudio.com/api/events',
           {
             date: values.date,
@@ -56,32 +55,26 @@ export default function PhotoBookingForm() {
             },
           }
         );
-
-        // ارسال پیام به اندپوینت messages (همراه با تاریخ و زمان)
-        const messageContent = `
-رزرو نوبت عکاسی جدید:
-📅 تاریخ: ${values.date}
-🕐 زمان: ${values.time}
-📝 توضیحات: ${values.description || 'بدون توضیحات خاصی'}
-        `.trim();
-
-
-                    
-        toast.success('رزرو شما با موفقیت ثبت شد');
+    
+        toast.success("رزرو شما با موفقیت ثبت شد");
         router.push('/');
         resetForm();
-        
-      } catch (error: any) {
-        if (error.response?.status === 400) {
-          toast.error('فرمت تاریخ نامعتبر است');
-        } else if (error.response?.status === 422) {
-          toast.error('اطلاعات وارد شده نامعتبر است');
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          if (error.response?.status === 400) {
+            toast.error('فرمت تاریخ نامعتبر است');
+          } else if (error.response?.status === 422) {
+            toast.error('اطلاعات وارد شده نامعتبر است');
+          } else {
+            toast.error('ثبت رزرو با خطا مواجه شد');
+          }
+          console.error('خطا:', error.response?.data || error.message);
         } else {
-          toast.error('ثبت رزرو با خطا مواجه شد');
+          toast.error('خطای ناشناخته‌ای رخ داده است');
+          console.error('خطای ناشناخته:', error);
         }
-        console.error('خطا:', error.response?.data || error.message);
       }
-    },
+    }
   });
 
   return (

@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import clsx from 'clsx';
-import { useFormik } from 'formik';
+import { FormikErrors, FormikTouched, useFormik } from 'formik';
 import * as Yup from 'yup';
 import ButtonLink from "@/components/common/buttonLink";
 import axios from 'axios';
@@ -10,6 +10,7 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { setTokenCookie } from '@/actions/actions';
 import { useUser } from '@/contexts/userContext';
+
 
 export default function LoginPage() {
   const [tab, setTab] = useState<'login' | 'register'>('login');
@@ -19,57 +20,81 @@ export default function LoginPage() {
     password: ''
   });
 
+
+interface LoginValues {
+  email: string;
+  password: string;
+}
+
+interface RegisterValues {
+  name: string;
+  phone: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+interface AxiosErrorResponse {
+  response?: {
+    status: number;
+    data?: {
+      message?: string;
+      errors?: Record<string, string[]>;
+    };
+  };
+  message?: string;
+}
   
-  function parseError(error: any): string {
-    if (!error.response) {
-      return "خطای ناشناخته! لطفاً اتصال اینترنت را بررسی کنید.";
+function parseError(error: AxiosErrorResponse): string {
+  if (!error.response) {
+    return "خطای ناشناخته! لطفاً اتصال اینترنت را بررسی کنید.";
+  }
+
+  const status = error.response.status;
+  const data = error.response.data;
+  const message = data?.message?.toLowerCase?.() || "";
+
+  if (status === 409 || status === 422 || status === 400) {
+    if (message.includes("email") && message.includes("taken")) {
+      return "این ایمیل قبلاً ثبت شده است.";
     }
-  
-    const status = error.response.status;
-    const data = error.response.data;
-    const message = data?.message?.toLowerCase?.() || "";
-  
-    if (status === 409 || status === 422 || status === 400) {
-      if (message.includes("email") && message.includes("taken")) {
-        return "این ایمیل قبلاً ثبت شده است.";
-      }
-      if ((message.includes("mobile") || message.includes("phone")) && message.includes("taken")) {
-        return "این شماره تلفن قبلاً ثبت شده است.";
-      }
-    }
-    switch (status) {
-      case 400:
-        return "درخواست نامعتبر است. لطفاً اطلاعات را بررسی کنید.";
-      case 401:
-      case 403:
-        return "دسترسی غیرمجاز! لطفاً وارد حساب خود شوید.";
-      case 404:
-        return "منبع مورد نظر یافت نشد.";
-      case 409:
-        return "درخواست تکراری یا داده‌ها در تضاد هستند.";
-      case 422:
-        // list errorrrrrrr
-        if (data.errors) {
-          const errors = Object.values(data.errors).flat();
-          if (typeof errors[0] === "string") {
-            return errors[0];
-          }
-          return "خطا در اعتبارسنجی اطلاعات.";
-        }
-        
-        return message || "خطا در اعتبارسنجی اطلاعات.";
-      case 500:
-        return "خطای داخلی سرور! لطفاً بعداً دوباره تلاش کنید.";
-      case 502:
-      case 503:
-      case 504:
-        return "سرور در دسترس نیست! لطفاً بعداً امتحان کنید.";
-      default:
-        return message || "خطایی رخ داده است.";
+    if ((message.includes("mobile") || message.includes("phone")) && message.includes("taken")) {
+      return "این شماره تلفن قبلاً ثبت شده است.";
     }
   }
-  
-  
+
+  switch (status) {
+    case 400:
+      return "درخواست نامعتبر است. لطفاً اطلاعات را بررسی کنید.";
+    case 401:
+    case 403:
+      return "دسترسی غیرمجاز! لطفاً وارد حساب خود شوید.";
+    case 404:
+      return "منبع مورد نظر یافت نشد.";
+    case 409:
+      return "درخواست تکراری یا داده‌ها در تضاد هستند.";
+    case 422:
+      if (data?.errors) {
+        const errors = Object.values(data.errors).flat();
+        if (typeof errors[0] === "string") {
+          return errors[0];
+        }
+        return "خطا در اعتبارسنجی اطلاعات.";
+      }
+      return message || "خطا در اعتبارسنجی اطلاعات.";
+    case 500:
+      return "خطای داخلی سرور! لطفاً بعداً دوباره تلاش کنید.";
+    case 502:
+    case 503:
+    case 504:
+      return "سرور در دسترس نیست! لطفاً بعداً امتحان کنید.";
+    default:
+      return message || "خطایی رخ داده است.";
+  }
+}
+
+
+
   const router = useRouter();
 
   const loginForm = useFormik({
@@ -87,7 +112,7 @@ export default function LoginPage() {
         .matches(/(?=.*\d)/, 'رمز عبور باید شامل عدد باشد')
         .required('رمز عبور الزامی است'),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values: LoginValues) => {
       try {
         const response = await axios.post("https://api.lightsostudio.com/api/login", {
           email: values.email,
@@ -111,12 +136,20 @@ export default function LoginPage() {
     
         setUser(userRes.data);
         router.push("/");
-      } catch (error: any) {
-        const message = parseError(error);
-        toast.error(message);
-        console.error("خطای لاگین:", error.response?.data || error.message);
+      } catch (error: unknown) {
+        // تایپ امن: ابتدا چک می‌کنیم که error شیء ای است که ویژگی response دارد (axios error)
+        if (axios.isAxiosError(error)) {
+          const message = parseError(error);
+          toast.error(message);
+          console.error("خطای لاگین:", error.response?.data || error.message);
+        } else {
+          // هر نوع خطای دیگری
+          toast.error("خطای ناشناخته رخ داد.");
+          console.error("خطای لاگین:", error);
+        }
       }
     }
+    
     
   });
 
@@ -146,9 +179,9 @@ export default function LoginPage() {
         .oneOf([Yup.ref("password")], "رمز عبور تطابق ندارد")
         .required("تکرار رمز عبور الزامی است"),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values: RegisterValues) => {
       try {
-        const response = await axios.post(
+        await axios.post(
           "https://api.lightsostudio.com/api/register",
           {
             name: values.name,
@@ -162,16 +195,22 @@ export default function LoginPage() {
         toast.success("ثبت‌نام با موفقیت انجام شد");
         setRegisteredCredentials({
           email: values.email,
-          password: values.password
+          password: values.password,
         });
         setTab("login");
     
-      } catch (error: any) {
-        const message = parseError(error);
-        toast.error(message);
-        console.error("خطا در ثبت‌نام:", error.response?.data || error.message);
+      } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+          const message = parseError(error);
+          toast.error(message);
+          console.error("خطا در ثبت‌نام:", error.response?.data || error.message);
+        } else {
+          toast.error("خطای ناشناخته رخ داد.");
+          console.error("خطا در ثبت‌نام:", error);
+        }
       }
     }
+    
     
   });
 
@@ -291,21 +330,43 @@ export default function LoginPage() {
   );
 }
 
-function InputField({ form, name, type, placeholder }: { form: any, name: string, type: string, placeholder: string }) {
+
+interface InputFieldProps<T> {
+  form: {
+    values: T;
+    errors: FormikErrors<T>;
+    touched: FormikTouched<T>;
+    handleChange: React.ChangeEventHandler<HTMLInputElement>;
+    handleBlur: React.FocusEventHandler<HTMLInputElement>;
+  };
+  name: keyof T;
+  type: string;
+  placeholder: string;
+}
+
+
+function InputField<T>({ form, name, type, placeholder }: InputFieldProps<T>) {
   return (
-    <div className='relative'>
+    <div className="relative">
       <input
         type={type}
-        name={name}
+        name={name as string}
         placeholder={placeholder}
         className="w-full px-4 py-2 flex text-xs sm:text-sm border border-slate-300/60 rounded-xl focus:outline-none text-right"
-        value={form.values[name]}
+        value={
+          typeof form.values[name] === "string" ||
+          typeof form.values[name] === "number"
+            ? form.values[name]
+            : ""
+        }
+        
         onChange={form.handleChange}
         onBlur={form.handleBlur}
       />
+
       {form.touched[name] && form.errors[name] && (
         <p className="text-red-500 text-xs mt-1 absolute -top-3 left-5 px-1.5 bg-white">
-          {form.errors[name]}
+          {form.errors[name] as string}
         </p>
       )}
     </div>

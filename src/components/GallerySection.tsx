@@ -1,8 +1,8 @@
 'use client';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify/react';
+import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 
 type Category = 'portrait' | 'product' | 'food';
@@ -384,10 +384,12 @@ export default function GallerySection() {
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className="w-full mb-4 break-inside-avoid"
           >
-            <img
+            <Image
               src={img}
               alt={`Gallery Image ${index + 1}`}
               className="w-full h-auto object-contain rounded-2xl shadow-[0px_0px_30px_10px_#edf2f7]"
+              width={200}
+              height={300}
             />
           </motion.div>
         ))}

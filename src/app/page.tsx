@@ -1,5 +1,5 @@
-import HeroSection from "@/components/HeroSection";
-import Intro from "@/components/Intro"
+
+
 import Portfolio from "@/components/Portfolio"
 import Video from "@/components/Video"
 export default function Home() {

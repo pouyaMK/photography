@@ -11,9 +11,6 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    turbo: false,
-  },
   images: {
     domains: ['api.lightsostudio.com'],
   },

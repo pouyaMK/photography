@@ -175,7 +175,7 @@ const ContactForm = () => {
                         برای ارسال پیام، ابتدا باید وارد حساب کاربری خود شوید.
                         اگر حساب کاربری ندارید،
                         <Link
-                          href="/register"
+                          href="/login"
                           className="underline font-semibold"
                         >
                           {" "}

@@ -22,6 +22,10 @@ type FolderNode = {
   icon : string
 };
 
+let cachedData: FolderNode[] | null = null;
+let isDataCached = false;
+
+
 function ImageWithLoader({ src, alt }: { src: string; alt: string }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -58,15 +62,41 @@ function CategorySection() {
 const categoryFromQuery = searchParams.get("category");
 
 
+  // useEffect(() => {
+  //   fetchFolderTree().then((res) => {
+  //     setData(res.data);
+  //     setIsLoading(false);
+  
+  //     const defaultCategory = categoryFromQuery || res.data[0]?.name;
+  //     setActiveCategory(defaultCategory);
+  
+  //     const foundCategory = res.data.find((c: FolderNode) => c.name === defaultCategory);
+  //     const firstSub = foundCategory?.children?.find(
+  //       (ch: FolderNode | FileNode): ch is FolderNode => ch.type === "folder"
+  //     );
+  
+  //     if (firstSub) {
+  //       setActiveSubCategory(firstSub.name);
+  
+  //       const firstSubSub = firstSub.children?.find(
+  //         (ch: FolderNode | FileNode): ch is FolderNode => ch.type === "folder"
+  //       );
+  
+  //       if (firstSubSub) {
+  //         setActiveSubSubCategory(firstSubSub.name);
+  //       }
+  //     }
+  //   });
+  // }, [categoryFromQuery]);
   useEffect(() => {
-    fetchFolderTree().then((res) => {
-      setData(res.data);
+    if (cachedData && isDataCached) {
+      setData(cachedData);
       setIsLoading(false);
   
-      const defaultCategory = categoryFromQuery || res.data[0]?.name;
+      const defaultCategory = categoryFromQuery || cachedData[0]?.name;
       setActiveCategory(defaultCategory);
   
-      const foundCategory = res.data.find((c: FolderNode) => c.name === defaultCategory);
+      const foundCategory = cachedData.find((c: FolderNode) => c.name === defaultCategory);
       const firstSub = foundCategory?.children?.find(
         (ch: FolderNode | FileNode): ch is FolderNode => ch.type === "folder"
       );
@@ -82,8 +112,38 @@ const categoryFromQuery = searchParams.get("category");
           setActiveSubSubCategory(firstSubSub.name);
         }
       }
-    });
+    } else {
+      // فقط دفعه اول fetch کن
+      fetchFolderTree().then((res) => {
+        cachedData = res.data;
+        isDataCached = true;
+  
+        setData(res.data);
+        setIsLoading(false);
+  
+        const defaultCategory = categoryFromQuery || res.data[0]?.name;
+        setActiveCategory(defaultCategory);
+  
+        const foundCategory = res.data.find((c: FolderNode) => c.name === defaultCategory);
+        const firstSub = foundCategory?.children?.find(
+          (ch: FolderNode | FileNode): ch is FolderNode => ch.type === "folder"
+        );
+  
+        if (firstSub) {
+          setActiveSubCategory(firstSub.name);
+  
+          const firstSubSub = firstSub.children?.find(
+            (ch: FolderNode | FileNode): ch is FolderNode => ch.type === "folder"
+          );
+  
+          if (firstSubSub) {
+            setActiveSubSubCategory(firstSubSub.name);
+          }
+        }
+      });
+    }
   }, [categoryFromQuery]);
+  
   
   
 

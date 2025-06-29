@@ -1,9 +1,9 @@
 // utils/api.ts
-import axios from "axios";
+import api from '@/lib/axios';
+
 
 export const fetchFolderTree = async () => {
-  console.log(" Fetching from API...");
-  const res = await axios.get("https://api.lightsostudio.com/api/folder-tree");
+  console.log('Fetching from API…');
+  const res = await api.get('/folder-tree');   
   return res.data;
-
 };

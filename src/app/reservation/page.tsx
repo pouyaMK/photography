@@ -10,6 +10,7 @@ import 'moment/locale/fa';
 import 'moment-jalaali';
 import ButtonLink from "@/components/common/buttonLink"
 import axios from "axios";
+import api  from "@/lib/axios";
 
 moment.loadPersian({ dialect: 'persian-modern' });
 
@@ -41,8 +42,8 @@ export default function PhotoBookingForm() {
       }
     
       try {
-        await axios.post(
-          'https://api.lightsostudio.com/api/events',
+        await api.post(
+          '/events',
           {
             date: values.date,
             time: values.time,
@@ -51,12 +52,11 @@ export default function PhotoBookingForm() {
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
             },
-          }
+          },
         );
-    
-        toast.success("رزرو شما با موفقیت ثبت شد");
+      
+        toast.success('رزرو شما با موفقیت ثبت شد');
         router.push('/');
         resetForm();
       } catch (error: unknown) {
@@ -74,6 +74,7 @@ export default function PhotoBookingForm() {
           console.error('خطای ناشناخته:', error);
         }
       }
+      
     }
   });
 

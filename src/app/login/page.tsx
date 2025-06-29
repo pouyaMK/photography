@@ -5,11 +5,13 @@ import clsx from 'clsx';
 import { FormikErrors, FormikTouched, useFormik } from 'formik';
 import * as Yup from 'yup';
 import ButtonLink from "@/components/common/buttonLink";
-import axios from 'axios';
+
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { setTokenCookie } from '@/actions/actions';
 import { useUser } from '@/contexts/userContext';
+import api   from '@/lib/axios';  // ← اینستنس پیکربندی‌شده
+import axios from 'axios';
 
 
 export default function LoginPage() {
@@ -93,8 +95,6 @@ function parseError(error: AxiosErrorResponse): string {
   }
 }
 
-
-
   const router = useRouter();
 
   const loginForm = useFormik({
@@ -114,7 +114,7 @@ function parseError(error: AxiosErrorResponse): string {
     }),
     onSubmit: async (values: LoginValues) => {
       try {
-        const response = await axios.post("https://api.lightsostudio.com/api/login", {
+        const response = await api.post('/login', {
           email: values.email,
           password: values.password,
         });
@@ -128,10 +128,8 @@ function parseError(error: AxiosErrorResponse): string {
     
         toast.success("ورود با موفقیت انجام شد");
     
-        const userRes = await axios.get("https://api.lightsostudio.com/api/user", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+        const userRes = await api.get('/user', {
+          headers: { Authorization: `Bearer ${token}` }, // اگر interceptor توکن می‌چسباند، می‌توانی این خط را حذف کنی
         });
     
         setUser(userRes.data);
@@ -143,7 +141,6 @@ function parseError(error: AxiosErrorResponse): string {
           toast.error(message);
           console.error("خطای لاگین:", error.response?.data || error.message);
         } else {
-          // هر نوع خطای دیگری
           toast.error("خطای ناشناخته رخ داد.");
           console.error("خطای لاگین:", error);
         }
@@ -181,16 +178,13 @@ function parseError(error: AxiosErrorResponse): string {
     }),
     onSubmit: async (values: RegisterValues) => {
       try {
-        await axios.post(
-          "https://api.lightsostudio.com/api/register",
-          {
-            name: values.name,
-            email: values.email,
-            mobile: values.phone,
-            password: values.password,
-            password_confirmation: values.confirmPassword,
-          },
-        );
+        await api.post('/register', {
+          name:  values.name,
+          email: values.email,
+          mobile: values.phone,
+          password: values.password,
+          password_confirmation: values.confirmPassword,
+        });
     
         toast.success("ثبت‌نام با موفقیت انجام شد");
         setRegisteredCredentials({

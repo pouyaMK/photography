@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/contexts/userContext';
 import axios from "axios";
+import api from '@/lib/axios';
 
 interface ContactFormValues {
   message: string;
@@ -27,45 +28,55 @@ const ContactForm = () => {
     message: '',
   };
 
-  const handleSubmit = async (
-    values: ContactFormValues,
-    { resetForm, setSubmitting }: FormikHelpers<ContactFormValues>
-  ) => {
-    const token = localStorage.getItem("token");
+const handleSubmit = async (
+  values: ContactFormValues,
+  { resetForm, setSubmitting }: FormikHelpers<ContactFormValues>
+) => {
+  const token = localStorage.getItem("token");
 
-    if (!token) {
-      toast.error("لطفاً ابتدا وارد حساب کاربری شوید");
-      router.push("/login");
-      return;
-    }
+  if (!token) {
+    toast.error("لطفاً ابتدا وارد حساب کاربری شوید");
+    router.push("/login");
+    return;
+  }
 
-    try {
-      setSubmitting(true);
-      toast.success("پیام شما با موفقیت ارسال شد");
-      resetForm();
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          toast.error("احراز هویت نامعتبر است. لطفاً مجدداً وارد شوید");
-          localStorage.removeItem("token");
-          router.push("/login");
-        } else if (error.response?.status === 422) {
-          const errors = error.response.data.errors;
-          if (errors?.message) {
-            toast.error(errors.message[0]);
-          } else {
-            toast.error("اطلاعات وارد شده نامعتبر است");
-          }
+  try {
+    setSubmitting(true);
+    // بجای axios دستی 
+    await api.post('/contact', values, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    toast.success("پیام شما با موفقیت ارسال شد");
+    resetForm();
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 401) {
+        toast.error("احراز هویت نامعتبر است. لطفاً مجدداً وارد شوید");
+        localStorage.removeItem("token");
+        router.push("/login");
+      } else if (error.response?.status === 422) {
+        const errors = error.response.data.errors;
+        if (errors?.message) {
+          toast.error(errors.message[0]);
         } else {
-          toast.error("ارسال پیام با خطا مواجه شد");
+          toast.error("اطلاعات وارد شده نامعتبر است");
         }
-        console.error("خطا:", error.response?.data || error.message);
       } else {
-        toast.error("خطای ناشناخته‌ای رخ داده است");
-        console.error("خطای ناشناخته:", error);
+        toast.error("ارسال پیام با خطا مواجه شد");
       }
+      console.error("خطا:", error.response?.data || error.message);
+    } else {
+      toast.error("خطای ناشناخته‌ای رخ داده است");
+      console.error("خطای ناشناخته:", error);
     }
-  } 
+  } finally {
+    setSubmitting(false);
+  }
+}
+
 
   return (
     <div className="min-h-screen relative flex items-center justify-center  mb-20">

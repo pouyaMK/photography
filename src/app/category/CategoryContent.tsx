@@ -60,34 +60,6 @@ function CategorySection() {
   );
   const searchParams = useSearchParams();
 const categoryFromQuery = searchParams.get("category");
-
-
-  // useEffect(() => {
-  //   fetchFolderTree().then((res) => {
-  //     setData(res.data);
-  //     setIsLoading(false);
-  
-  //     const defaultCategory = categoryFromQuery || res.data[0]?.name;
-  //     setActiveCategory(defaultCategory);
-  
-  //     const foundCategory = res.data.find((c: FolderNode) => c.name === defaultCategory);
-  //     const firstSub = foundCategory?.children?.find(
-  //       (ch: FolderNode | FileNode): ch is FolderNode => ch.type === "folder"
-  //     );
-  
-  //     if (firstSub) {
-  //       setActiveSubCategory(firstSub.name);
-  
-  //       const firstSubSub = firstSub.children?.find(
-  //         (ch: FolderNode | FileNode): ch is FolderNode => ch.type === "folder"
-  //       );
-  
-  //       if (firstSubSub) {
-  //         setActiveSubSubCategory(firstSubSub.name);
-  //       }
-  //     }
-  //   });
-  // }, [categoryFromQuery]);
   useEffect(() => {
     if (cachedData && isDataCached) {
       setData(cachedData);

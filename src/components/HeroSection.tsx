@@ -66,7 +66,7 @@ export default function HeroSection() {
             <div
               key={i}
               className={`transition-all duration-500 cursor-pointer overflow-hidden rounded-xl ${
-                hovered === i ? 'w-[25%]' : 'w-[20%] hover:w-[30%]'
+                hovered === i ? "w-[25%]" : "w-[20%] hover:w-[30%]"
               }`}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
@@ -84,14 +84,13 @@ export default function HeroSection() {
 
         {/* Mobile / Tablet view - Swiper Slider */}
         <div className="md:hidden">
-        <Swiper
-  spaceBetween={16}
-  slidesPerView={1.2}
-  pagination={{ clickable: true }}
-  modules={[Pagination]}
-  className="custom-swiper"
->
-
+          <Swiper
+            spaceBetween={16}
+            slidesPerView={1.2}
+            pagination={{ clickable: true }}
+            modules={[Pagination]}
+            className="custom-swiper"
+          >
             {images.map((src, i) => (
               <SwiperSlide key={i}>
                 <div className="overflow-hidden rounded-xl">
